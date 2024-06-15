@@ -56,15 +56,37 @@ For Zsh users
 ,echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.zshrc && echo 'eval "$(pyenv init --path)"' >> ~/.zshrc && echo 'eval "$(pyenv init -)"' >> ~/.zshrc && echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc && source ~/.zshrc
 ```
 
-3. **Install and activate Python 3.10.x**:
+3. **Check Python Version**:
 
+check python version
+```bash
+python3 -V
+```
+
+create local virtual env
+```bash
+python3 -m venv venv
+```
+
+activate virtual env
+```bash
+source venv/bin/activate
+```
+
+4. **Install and activate Python 3.10.x**:
 ```bash
 pyenv install 3.10.x
 pyenv local 3.10.x
 ```
 
-4. **Install dependencies**:
+5. **Install dependencies**:
 
 ```bash
 pip install -r requirements.txt
+```
+
+6. **Deactivate venv**:
+
+```bash
+deactivate
 ```

@@ -4,6 +4,10 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_community.llms.ollama import Ollama
 from langchain_community.embeddings.ollama import OllamaEmbeddings
 
+# streamlit: https://streamlit.io/
+
+
+
 CHROMA_PATH = "chroma_nba_cba"
 
 PROMPT_TEMPLATE = """
@@ -41,6 +45,16 @@ def query_rag(user_message):
 
 def main():
     #Add Streamlit code for creating UI
-    pass
+    st.title("title here")
+    user_message = st.text_input("user message: ")
+    if st.button("Ask"):
+        if user_message:
+            with st.spinner('Asking....'):
+            response_text = query_rag(user_message)
+            st.write(response_text)
+        else:
+            st.write("please enter a topic.")
 
 main()
+
+# streamlit run filename

@@ -3,20 +3,28 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import CSVLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
-from get_embedding_function import get_embedding_function
 from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings.ollama import OllamaEmbeddings
 
+# be sure to pull model `ollama pull nomic-embed-text`
 
 #Adds the NBA Collective Bargaining Agreement (CBA) to the ChromaDB Vector Database
 
 CHROMA_PATH = "chroma_nba_cba"
 DATA_PATH = "data_nba_cba"
 
+def get_embedding_function():
+    embeddings = OllamaEmbeddings(model="nomic-embed-text")
+    return embeddings
+
 
 def main():
     # Create (or update) the data store.
+    print("Loading documents")
     documents = load_documents()
+    print("Chunking documents")
     chunks = split_documents(documents)
+    print("Attempting to add to chromadb")
     add_to_chroma(chunks)
 
 
@@ -37,10 +45,12 @@ def split_documents(documents: list[Document]):
 
 def add_to_chroma(chunks: list[Document]):
     # Load the existing database.
+    print("Attempting to load existing database")
     db = Chroma(
         persist_directory=CHROMA_PATH, embedding_function=get_embedding_function()
     )
     db.add_documents(chunks)
+    print("Added documents")
     db.persist()
 
 
